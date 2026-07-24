@@ -1,0 +1,7 @@
+build-*/
+*.elf
+*.hex
+*.bin
+*.map
+__pycache__/
+tools/verify_reverse_engineered_assets.py

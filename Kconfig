@@ -1,0 +1,3 @@
+mainmenu "G6 HE replacement firmware"
+
+source "Kconfig.zephyr"

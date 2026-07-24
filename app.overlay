@@ -1,0 +1,50 @@
+#include <zephyr/dt-bindings/gpio/gpio.h>
+#include <zephyr/dt-bindings/pinctrl/nrf-pinctrl.h>
+
+&pinctrl {
+	g6_sensor_spi_default: g6_sensor_spi_default {
+		group1 {
+			psels = <NRF_PSEL(SPIM_SCK, 2, 1)>,
+				<NRF_PSEL(SPIM_MOSI, 2, 2)>,
+				<NRF_PSEL(SPIM_MISO, 2, 4)>;
+		};
+	};
+
+	g6_sensor_spi_sleep: g6_sensor_spi_sleep {
+		group1 {
+			psels = <NRF_PSEL(SPIM_SCK, 2, 1)>,
+				<NRF_PSEL(SPIM_MOSI, 2, 2)>,
+				<NRF_PSEL(SPIM_MISO, 2, 4)>;
+			low-power-enable;
+		};
+	};
+};
+
+&spi00 {
+	status = "okay";
+	pinctrl-0 = <&g6_sensor_spi_default>;
+	pinctrl-1 = <&g6_sensor_spi_sleep>;
+	pinctrl-names = "default", "sleep";
+};
+
+/ {
+	g6_mouse_hid: g6_mouse_hid {
+		compatible = "zephyr,hid-device";
+		label = "G6_MOUSE";
+		protocol-code = "mouse";
+		in-polling-period-us = <125>;
+		in-report-size = <4>;
+	};
+
+	g6_config_hid: g6_config_hid {
+		compatible = "zephyr,hid-device";
+		label = "G6_CONFIG";
+		protocol-code = "none";
+		in-polling-period-us = <1000>;
+		in-report-size = <64>;
+	};
+};
+
+&wdt31 {
+	status = "okay";
+};
